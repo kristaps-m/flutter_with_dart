@@ -83,7 +83,7 @@ class _TextInputPlaceState extends State<TextInputPlace> {
       var subList = X[i];
       var vol = subList[0];
       var proc = subList[1];
-      print("int loop = $vol, $proc, $endVolume, $pureLiquid");
+      //print("int loop = $vol, $proc, $endVolume, $pureLiquid");
       endVolume += vol;
       pureLiquid += vol * (proc / 100);
       //endPersentage =
@@ -111,27 +111,37 @@ class _TextInputPlaceState extends State<TextInputPlace> {
           ),
           RichText(
             text: TextSpan(
-              text:'Volume: ',
+              text: 'Volume: ',
               style: TextStyle(
                   color: Colors.black,
                   fontSize: fontSizeLetters,
                   fontWeight: FontWeight.bold),
-            children: <TextSpan>[TextSpan(text: '$V', style: TextStyle(
-              color: Colors.teal,
-                fontSize: fontSizeLetters,
-                fontWeight: FontWeight.bold))],),
+              children: <TextSpan>[
+                TextSpan(
+                    text: '$V',
+                    style: TextStyle(
+                        color: Colors.teal,
+                        fontSize: fontSizeLetters,
+                        fontWeight: FontWeight.bold))
+              ],
+            ),
           ),
           RichText(
             text: TextSpan(
-              text:'Percentage: ',
+              text: 'Percentage: ',
               style: TextStyle(
                   color: Colors.black,
                   fontSize: fontSizeLetters,
                   fontWeight: FontWeight.bold),
-              children: <TextSpan>[TextSpan(text: '$P', style: TextStyle(
-                  color: Colors.purple,
-                  fontSize: fontSizeLetters,
-                  fontWeight: FontWeight.bold))],),
+              children: <TextSpan>[
+                TextSpan(
+                    text: '$P',
+                    style: TextStyle(
+                        color: Colors.purple,
+                        fontSize: fontSizeLetters,
+                        fontWeight: FontWeight.bold))
+              ],
+            ),
           ),
           Container(
             width: double.infinity,
@@ -152,10 +162,9 @@ class _TextInputPlaceState extends State<TextInputPlace> {
                   child: new TextField(
                 decoration: InputDecoration(hintText: "Volume"),
                 style: TextStyle(
-                  fontSize: 30,
-                  color: Colors.teal,
-                  fontWeight: FontWeight.bold
-                ),
+                    fontSize: 30,
+                    color: Colors.teal,
+                    fontWeight: FontWeight.bold),
                 keyboardType: TextInputType.numberWithOptions(decimal: true),
                 onChanged: (String value) {
                   try {
@@ -172,10 +181,9 @@ class _TextInputPlaceState extends State<TextInputPlace> {
                 child: new TextField(
                   decoration: InputDecoration(hintText: "Percentage"),
                   style: TextStyle(
-                    fontSize: 30,
-                    color: Colors.purple,
-                    fontWeight: FontWeight.bold
-                  ),
+                      fontSize: 30,
+                      color: Colors.purple,
+                      fontWeight: FontWeight.bold),
                   keyboardType: TextInputType.numberWithOptions(decimal: true),
                   onChanged: (String value) {
                     try {
@@ -191,34 +199,61 @@ class _TextInputPlaceState extends State<TextInputPlace> {
               )
             ],
           ),
-          InkWell(
-            // onTap: () {
-            //   setState(() {
-            //     _incrementCounter;
-            //   });
-            onTap: () {
-              // ignore: unnecessary_statements
-              _addToList();
-            },
-            child: Container(
-              width: buttonWight,
-              // buttonWight
-              height: buttonHeight,
-              // buttonHeight
-              margin: EdgeInsets.all(10.0),
-              decoration: BoxDecoration(
-                  color: Colors.brown.withOpacity(0.3),
-                  borderRadius: BorderRadius.circular(7.0)),
-              child: Center(
-                child: Text(
-                  "add!",
-                  style: TextStyle(
-                      color: Colors.deepOrange,
-                      fontSize: 35.0,
-                      fontWeight: FontWeight.bold),
+          Row(
+            children: [
+              SizedBox(
+                width: 100,
+              ),
+              InkWell(
+                onTap: () {
+                  // ignore: unnecessary_statements
+                  _addToList();
+                },
+                child: Container(
+                  width: buttonWight,
+                  // buttonWight
+                  height: buttonHeight,
+                  // buttonHeight
+                  margin: EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                      color: Colors.brown.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(7.0)),
+                  child: Center(
+                    child: Text(
+                      "add!",
+                      style: TextStyle(
+                          color: Colors.deepOrange,
+                          fontSize: 35.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
                 ),
               ),
-            ),
+              InkWell(
+                onTap: () {
+                  _removeFromList();
+                },
+                child: Container(
+                  width: buttonWight,
+                  // buttonWight
+                  height: buttonHeight,
+                  // buttonHeight
+                  margin: EdgeInsets.all(10.0),
+                  decoration: BoxDecoration(
+                      color: Colors.brown.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(7.0)),
+                  child: Center(
+                    child: Text(
+                      "del!",
+                      style: TextStyle(
+                          color: Colors.deepOrange,
+                          fontSize: 35.0,
+                          fontWeight: FontWeight.bold),
+                    ),
+                  ),
+                ),
+              )
+            ],
           ),
           InkWell(
             onTap: () {
@@ -277,9 +312,28 @@ class _TextInputPlaceState extends State<TextInputPlace> {
 
   void _addToList() {
     setState(() {
-      theList.add([doubleVolToList, (doublePercentToList>=100)?100:doublePercentToList]);
+      theList.add([
+        doubleVolToList,
+        (doublePercentToList >= 100) ? 100 : doublePercentToList
+      ]);
       C++;
-      showString += "V$C=$doubleVolToList, P$C=${(doublePercentToList>=100)?100:doublePercentToList} & \n";
+      showString +=
+          "V$C=$doubleVolToList, P$C=${(doublePercentToList >= 100) ? 100 : doublePercentToList} & \n";
+    });
+  }
+
+  void _removeFromList() {
+    setState(() {
+      theList.removeLast();
+      C--;
+      int cDel = 1;
+      showString = "Liquids: ";
+      theList.forEach((element) {
+        var a = element[0];
+        var b = element[1];
+        showString += "V$cDel=$a, P$cDel=${(b >= 100) ? 100 : b} & \n";
+        cDel++;
+      });
     });
   }
 
